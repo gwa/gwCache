@@ -59,4 +59,18 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
         $data = $cache->clear();
         $this->assertFalse($cache->isCached());
     }
+
+    public function testCacheObject()
+    {
+        $cachedir = __DIR__.'/../temp';
+        $cache = new gwCache('obj', $cachedir, 30, gwCache::TYPE_OBJECT);
+        $obj = new \stdClass;
+        $obj->foo = 'bar';
+        $cache->set($obj);
+
+        $cache2 = new gwCache('obj', $cachedir, 30, gwCache::TYPE_OBJECT);
+        $this->assertTrue($cache2->isCached());
+        $obj2 = $cache2->get();
+        $this->assertEquals('bar', $obj2->foo);
+    }
 }

@@ -51,6 +51,7 @@ class gwCache
         switch ($type) {
             case self::TYPE_FLAT:
             case self::TYPE_VARIABLE:
+            case self::TYPE_OBJECT:
                 $this->_persistance = new gwCacheFile($identifier, $directory, $cacheminutes);
                 break;
         }
@@ -89,6 +90,10 @@ class gwCache
         switch ($this->_type) {
             case self::TYPE_VARIABLE:
                 $content = '<?php return '.var_export($content, true).';';
+                break;
+            case self::TYPE_OBJECT:
+                $content = serialize($content);
+                break;
 
         }
         return $this->_persistance->set($content);
@@ -104,6 +109,8 @@ class gwCache
         switch ($this->_type) {
             case self::TYPE_VARIABLE:
                 return include $this->_persistance->getFullPath();
+            case self::TYPE_OBJECT:
+                return unserialize($this->_persistance->get());
 
         }
         return $this->_persistance->get();
