@@ -10,7 +10,7 @@
     ],
     "homepage": "https://github.com/gwa/gwCache",
     "require": {
-        "gwa/gw-filesystem": "1.0.*"
+        "gwa/gw-filesystem": "1.*"
     },
     "autoload": {
         "psr-4": {
