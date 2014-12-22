@@ -7,18 +7,18 @@ use Gwa\Exception\gwFilesystemException;
 
 class gwCacheFile implements gwiCachePersistance
 {
-    protected $_identifier;
-    protected $_dirpath;
-    protected $_fullpath;
-    protected $_cachetime;
-    protected $_data;
+    protected $identifier;
+    protected $dirpath;
+    protected $fullpath;
+    protected $cacheTime;
+    protected $data;
 
-    public function __construct( $identifier, $dirpath, $cacheminutes=60 )
+    public function __construct($identifier, $dirpath, $cacheminutes = 60)
     {
-        $this->_identifier = md5($identifier);
-        $this->_dirpath = $dirpath;
-        $this->_fullpath = realpath($dirpath) . '/' . $this->_identifier;
-        $this->_cachetime = $cacheminutes;
+        $this->identifier = md5($identifier);
+        $this->dirpath    = $dirpath;
+        $this->fullpath   = realpath($dirpath).'/'.$this->identifier;
+        $this->cacheTime  = $cacheminutes;
     }
 
     /**
@@ -27,33 +27,35 @@ class gwCacheFile implements gwiCachePersistance
     public function isCached()
     {
         // does file exist?
-        if (!file_exists($this->_fullpath)) {
+        if (!file_exists($this->fullpath)) {
             return false;
         }
 
         // infinite cache
-        if ($this->_cachetime == -1) {
+        if ($this->cacheTime === -1) {
             return true;
         }
 
         // has cache expired
-        $filemtime = filemtime($this->_fullpath);
+        $filemtime   = filemtime($this->fullpath);
         $elapsedmins = floor((time() - $filemtime) / 60);
 
-        return $elapsedmins < $this->_cachetime;
+        return $elapsedmins < $this->cacheTime;
     }
 
     /**
      * Clears the cached file.
+     *
      * @return boolean
      */
     public function clear()
     {
-        $file = new gwFile($this->_fullpath);
+        $file = new gwFile($this->fullpath);
+
         try {
             $file->delete();
         } catch (\Exception $e) {
-            if ($e->getMessage() != gwFilesystemException::ERR_FILE_NOT_EXIST) {
+            if ($e->getMessage() !== gwFilesystemException::ERR_FILE_NOT_EXIST) {
                 // @codeCoverageIgnoreStart
                 throw($e);
                 // @codeCoverageIgnoreEnd
@@ -62,14 +64,15 @@ class gwCacheFile implements gwiCachePersistance
     }
 
     /**
-     * @param string $content
+     * @param  string                $content
      * @returns int bytes written
      * @throws gwFilesystemException
      */
-    public function set( $content )
+    public function set($content)
     {
-        gwDirectory::makeDirectoryRecursive($this->_dirpath);
-        $file = new gwFile($this->_fullpath);
+        gwDirectory::makeDirectoryRecursive($this->dirpath);
+        $file = new gwFile($this->fullpath);
+
         return $file->replaceContent($content);
     }
 
@@ -83,12 +86,13 @@ class gwCacheFile implements gwiCachePersistance
             return false;
         }
 
-        if (isset($this->_data)) {
-            return $this->_data;
+        if (isset($this->data)) {
+            return $this->data;
         }
 
-        $file = new gwFile($this->_fullpath);
-        return $this->_data = $file->getContent();
+        $file = new gwFile($this->fullpath);
+
+        return $this->data = $file->getContent();
     }
 
     /**
@@ -96,6 +100,6 @@ class gwCacheFile implements gwiCachePersistance
      */
     public function getFullPath()
     {
-        return $this->_fullpath;
+        return $this->fullpath;
     }
 }

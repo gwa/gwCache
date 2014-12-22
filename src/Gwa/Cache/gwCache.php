@@ -33,26 +33,26 @@ class gwCache
      */
     const TYPE_DATABASE = 'gwCache::type_database';
 
-    protected $_type;
+    protected $type;
 
-    protected $_persistance;
+    protected $persistance;
 
     /**
      * constructor
      *
-     * @param string $identifier unique identifier for this file
-     * @param string $directory absolute path to writable cache directory
-     * @param int $cacheminutes cache time in minutes. Set to CACHEMINUTES_INFINITE for infinite caching
-     * @param string $type type of cache
+     * @param string $identifier   unique identifier for this file
+     * @param string $directory    absolute path to writable cache directory
+     * @param int    $cacheminutes cache time in minutes. Set to CACHEMINUTES_INFINITE for infinite caching
+     * @param string $type         type of cache
      */
-    public function __construct( $identifier, $directory, $cacheminutes=60, $type=self::TYPE_FLAT )
+    public function __construct($identifier, $directory, $cacheminutes = 60, $type = self::TYPE_FLAT)
     {
-        $this->_type = $type;
+        $this->type = $type;
         switch ($type) {
             case self::TYPE_FLAT:
             case self::TYPE_VARIABLE:
             case self::TYPE_OBJECT:
-                $this->_persistance = new gwCacheFile($identifier, $directory, $cacheminutes);
+                $this->persistance = new gwCacheFile($identifier, $directory, $cacheminutes);
                 break;
         }
     }
@@ -64,7 +64,7 @@ class gwCache
      */
     public function isCached()
     {
-        return $this->_persistance->isCached();
+        return $this->persistance->isCached();
     }
 
     /**
@@ -75,19 +75,19 @@ class gwCache
      */
     public function clear()
     {
-        $this->_persistance->clear();
+        $this->persistance->clear();
     }
 
     /**
      * sets the cache
      *
-     * @param mixed $content
+     * @param  mixed                 $content
      * @returns int bytes written
      * @throws gwFilesystemException
      */
-    public function set( $content )
+    public function set($content)
     {
-        switch ($this->_type) {
+        switch ($this->type) {
             case self::TYPE_VARIABLE:
                 $content = '<?php return '.var_export($content, true).';';
                 break;
@@ -96,7 +96,8 @@ class gwCache
                 break;
 
         }
-        return $this->_persistance->set($content);
+
+        return $this->persistance->set($content);
     }
 
     /**
@@ -106,13 +107,14 @@ class gwCache
      */
     public function get()
     {
-        switch ($this->_type) {
+        switch ($this->type) {
             case self::TYPE_VARIABLE:
-                return include $this->_persistance->getFullPath();
+                return include $this->persistance->getFullPath();
             case self::TYPE_OBJECT:
-                return unserialize($this->_persistance->get());
+                return unserialize($this->persistance->get());
 
         }
-        return $this->_persistance->get();
+
+        return $this->persistance->get();
     }
 }
