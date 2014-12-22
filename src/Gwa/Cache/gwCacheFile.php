@@ -13,6 +13,10 @@ class gwCacheFile implements gwiCachePersistance
     protected $cacheTime;
     protected $data;
 
+    /**
+     * @param string $identifier
+     * @param string $dirpath
+     */
     public function __construct($identifier, $dirpath, $cacheminutes = 60)
     {
         $this->identifier = md5($identifier);

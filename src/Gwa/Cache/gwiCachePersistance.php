@@ -1,10 +1,23 @@
 <?php
 namespace Gwa\Cache;
 
+
 interface gwiCachePersistance
 {
+    /**
+     * @return boolean
+     */
     public function isCached();
+    /**
+     * @return false|string
+     */
     public function get();
-    public function set($content);
+    /**
+     * @return integer
+     */
+    public function set( $content );
+    /**
+     * @return boolean|null
+     */
     public function clear();
 }
