@@ -13,6 +13,10 @@ class gwCacheFile implements gwiCachePersistance
     protected $_cachetime;
     protected $_data;
 
+    /**
+     * @param string $identifier
+     * @param string $dirpath
+     */
     public function __construct( $identifier, $dirpath, $cacheminutes=60 )
     {
         $this->_identifier = md5($identifier);
@@ -45,7 +49,7 @@ class gwCacheFile implements gwiCachePersistance
 
     /**
      * Clears the cached file.
-     * @return boolean
+     * @return boolean|null
      */
     public function clear()
     {
@@ -75,7 +79,7 @@ class gwCacheFile implements gwiCachePersistance
 
     /**
      * get the cache
-     * @return mixed string or false if not cached
+     * @return false|string string or false if not cached
      */
     public function get()
     {
