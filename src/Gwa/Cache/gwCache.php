@@ -70,7 +70,7 @@ class gwCache
     /**
      * clears the cached file
      *
-     * @return boolean
+     * @return boolean|null
      * @uses gwFile::delete()
      */
     public function clear()
