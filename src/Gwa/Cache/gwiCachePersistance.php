@@ -1,7 +1,6 @@
 <?php
 namespace Gwa\Cache;
 
-
 interface gwiCachePersistance
 {
     /**
@@ -15,7 +14,7 @@ interface gwiCachePersistance
     /**
      * @return integer
      */
-    public function set( $content );
+    public function set($content);
     /**
      * @return boolean|null
      */
