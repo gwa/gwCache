@@ -15,7 +15,7 @@ before_script:
   - OCULAR_ENV='5.4'
 
 script:
-  - vendor/bin/phpunit --configuration ./tests/phpunit.xml
+  - vendor/bin/phpunit/phpunit
   - vendor/bin/php-cs-fixer --diff --dry-run -vv fix
   - if [ $(phpenv version-name) = $OCULAR_ENV ]; then wget https://scrutinizer-ci.com/ocular.phar; php ocular.phar code-coverage:upload --format=php-clover coverage.clover; fi
 
