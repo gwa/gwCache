@@ -1,9 +1,9 @@
 <?php
 namespace Gwa\Cache;
 
-use Gwa\Filesystem\gwFile;
-use Gwa\Filesystem\gwDirectory;
 use Gwa\Exception\gwFilesystemException;
+use Gwa\Filesystem\gwDirectory;
+use Gwa\Filesystem\gwFile;
 
 class gwCacheFile implements gwiCachePersistance
 {
@@ -50,7 +50,7 @@ class gwCacheFile implements gwiCachePersistance
     /**
      * Clears the cached file.
      *
-     * @return boolean
+     * @return boolean|null
      */
     public function clear()
     {
@@ -82,7 +82,7 @@ class gwCacheFile implements gwiCachePersistance
 
     /**
      * get the cache
-     * @return mixed string or false if not cached
+     * @return string string or false if not cached
      */
     public function get()
     {
