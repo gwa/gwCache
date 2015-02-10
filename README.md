@@ -5,7 +5,7 @@ Simple PHP cache
 
 ## Master
 
-[![Quality Score](https://img.shields.io/scrutinizer/g/gwa/gwCache.svg?style=flat-square)](https://scrutinizer-ci.com/g/narrowspark/framework/code-structure/master)  [![Build Status](https://api.travis-ci.org/gwa/gwCache.svg?branch=master)](https://travis-ci.org/narrowspark/framework)
+[![Quality Score](https://img.shields.io/scrutinizer/g/gwa/gwCache.svg?style=flat-square)](https://scrutinizer-ci.com/g/gwa/gwCache/code-structure/master)  [![Build Status](https://api.travis-ci.org/gwa/gwCache.svg?branch=master)](https://travis-ci.org/gwa/gwCache)
 
 ## Contributing
 
