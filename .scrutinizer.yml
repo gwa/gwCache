@@ -1,6 +1,6 @@
 
 filter:
-    paths: ['src/Gwa/Flickr/*']
+    paths: ['src/Gwa/Cache/*']
     excluded_paths: [tests/*, vendor/*]
 
 checks:
