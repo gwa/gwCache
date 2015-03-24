@@ -72,5 +72,7 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
         $this->assertTrue($cache2->isCached());
         $obj2 = $cache2->get();
         $this->assertEquals('bar', $obj2->foo);
+
+        $cache2->clear();
     }
 }

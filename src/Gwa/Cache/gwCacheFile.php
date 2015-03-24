@@ -68,8 +68,10 @@ class gwCacheFile implements gwiCachePersistance
     }
 
     /**
-     * @param  string                $content
-     * @returns int bytes written
+     * @param string $content
+     *
+     * @return int bytes written
+     *
      * @throws gwFilesystemException
      */
     public function set($content)
@@ -81,7 +83,8 @@ class gwCacheFile implements gwiCachePersistance
     }
 
     /**
-     * get the cache
+     * get the cache.
+     *
      * @return string string or false if not cached
      */
     public function get()

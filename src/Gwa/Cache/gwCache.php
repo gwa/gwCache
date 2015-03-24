@@ -3,6 +3,7 @@ namespace Gwa\Cache;
 
 /**
  * Provides caching functions.
+ *
  * @ingroup data
  */
 class gwCache
@@ -10,25 +11,29 @@ class gwCache
     const CACHEMINUTES_INFINITE = -1;
 
     /**
-     * Flat text type
+     * Flat text type.
+     *
      * @var string
      */
     const TYPE_FLAT = 'gwCache::type_flat';
 
     /**
-     * PHP variable type
+     * PHP variable type.
+     *
      * @var string
      */
     const TYPE_VARIABLE = 'gwCache::type_variable';
 
     /**
-     * PHP object type
+     * PHP object type.
+     *
      * @var string
      */
     const TYPE_OBJECT = 'gwCache::type_object';
 
     /**
-     * PHP object type
+     * PHP object type.
+     *
      * @var string
      */
     const TYPE_DATABASE = 'gwCache::type_database';
@@ -38,7 +43,7 @@ class gwCache
     protected $persistance;
 
     /**
-     * constructor
+     * constructor.
      *
      * @param string $identifier   unique identifier for this file
      * @param string $directory    absolute path to writable cache directory
@@ -58,7 +63,7 @@ class gwCache
     }
 
     /**
-     * checks if the file is cached
+     * checks if the file is cached.
      *
      * @return boolean
      */
@@ -68,9 +73,10 @@ class gwCache
     }
 
     /**
-     * clears the cached file
+     * clears the cached file.
      *
      * @return boolean|null
+     *
      * @uses gwFile::delete()
      */
     public function clear()
@@ -79,10 +85,12 @@ class gwCache
     }
 
     /**
-     * sets the cache
+     * sets the cache.
      *
-     * @param  mixed                 $content
-     * @returns int bytes written
+     * @param mixed $content
+     *
+     * @return int bytes written
+     *
      * @throws gwFilesystemException
      */
     public function set($content)
@@ -101,7 +109,7 @@ class gwCache
     }
 
     /**
-     * get the cache
+     * get the cache.
      *
      * @return mixed string or false if not cached
      */
