@@ -12,4 +12,5 @@ $finder = Symfony\CS\Finder\DefaultFinder::create()
 
 return Symfony\CS\Config\Config::create()
     // use default PSR-2_LEVEL:
+    ->level(Symfony\CS\FixerInterface::PSR2_LEVEL)
     ->finder($finder);
