@@ -1,5 +1,6 @@
 <?php
 use Gwa\Cache\gwCache;
+use Gwa\Cache\gwCacheFile;
 use Gwa\Filesystem\gwDirectory;
 
 class gwCacheTest extends PHPUnit_Framework_TestCase
@@ -18,6 +19,19 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
         $cachedir = __DIR__.'/../temp';
         $cache = new gwCache('foo', $cachedir);
         $this->assertInstanceOf('Gwa\Cache\gwCache', $cache);
+    }
+
+    public function testGetPersistance()
+    {
+        $cachedir = __DIR__.'/../temp';
+        $cache = new gwCache('foo', $cachedir);
+        $this->assertInstanceOf('Gwa\Cache\gwiCachePersistance', $cache->getPersistance());
+
+        // change persistance
+        $cachefile = new gwCacheFile('bar', $cachedir);
+        $this->assertNotSame($cachefile, $cache->getPersistance());
+        $cache->setPersistance($cachefile);
+        $this->assertSame($cachefile, $cache->getPersistance());
     }
 
     public function testIsCachedFalse()

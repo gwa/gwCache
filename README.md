@@ -3,9 +3,47 @@ gwCache
 
 Simple PHP cache
 
-## Master
-
 [![Quality Score](https://img.shields.io/scrutinizer/g/gwa/gwCache.svg?style=flat-square)](https://scrutinizer-ci.com/g/gwa/gwCache/code-structure/master)  [![Build Status](https://api.travis-ci.org/gwa/gwCache.svg?branch=master)](https://travis-ci.org/gwa/gwCache)
+
+## Usage
+
+### Installation
+
+Install [package](https://packagist.org/packages/gwa/gw-cache) via composer.
+
+```php
+composer require gwa/gw-cache
+```
+
+### Using the cache
+
+```php
+use Gwa\Cache\gwCache;
+
+// Cache directory should be writable.
+// gwCache will try to create it if it does not exist.
+$cachedir = __DIR__ . '/cachestore';
+
+// Set cache validity in minutes
+$cacheminutes = 60 * 12;
+
+// create a cache instance
+$cache = new gwCache('myidentifier', $cachedir, $cacheminutes);
+
+$iscached = $cache->isCached(); // false
+
+// write a value to the cache
+$bytes = $cache->set('foo');
+
+// new object, same directory and identifier
+$cache2 = new gwCache('myidentifier', $cachedir, $cacheminutes);
+$iscached = $cache2->isCached(); // true
+$value = $cache2->get(); // 'foo'
+
+// clear the cache
+$cache2->clear();
+$iscached = $cache2->isCached(); // false
+```
 
 ## Contributing
 
