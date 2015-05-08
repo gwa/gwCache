@@ -4,6 +4,15 @@ use Gwa\Filesystem\gwDirectory;
 
 class gwCacheTest extends PHPUnit_Framework_TestCase
 {
+    public static function tearDownAfterClass()
+    {
+        $path = __DIR__.'/../temp/subfolder';
+        if (is_dir($path)) {
+            $dir = new gwDirectory($path);
+            $dir->delete();
+        }
+    }
+
     public function testConstructor()
     {
         $cachedir = __DIR__.'/../temp';
@@ -22,6 +31,15 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
     public function testSet()
     {
         $cachedir = __DIR__.'/../temp';
+        $cache = new gwCache('foo', $cachedir);
+        $bytes = $cache->set('foo');
+        $this->assertEquals(3, $bytes);
+        $this->assertTrue($cache->isCached());
+    }
+
+    public function testSetInNonExistingSubfolder()
+    {
+        $cachedir = __DIR__.'/../temp/subfolder';
         $cache = new gwCache('foo', $cachedir);
         $bytes = $cache->set('foo');
         $this->assertEquals(3, $bytes);

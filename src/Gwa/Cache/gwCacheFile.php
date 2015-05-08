@@ -1,9 +1,9 @@
 <?php
 namespace Gwa\Cache;
 
-use Gwa\Exception\gwFilesystemException;
-use Gwa\Filesystem\gwDirectory;
 use Gwa\Filesystem\gwFile;
+use Gwa\Filesystem\gwDirectory;
+use Gwa\Exception\gwFilesystemException;
 
 class gwCacheFile implements gwiCachePersistance
 {
@@ -21,7 +21,7 @@ class gwCacheFile implements gwiCachePersistance
     {
         $this->identifier = md5($identifier);
         $this->dirpath    = $dirpath;
-        $this->fullpath   = realpath($dirpath).'/'.$this->identifier;
+        $this->fullpath   = $dirpath . '/' . $this->identifier;
         $this->cacheTime  = $cacheminutes;
     }
 
@@ -54,17 +54,11 @@ class gwCacheFile implements gwiCachePersistance
      */
     public function clear()
     {
-        $file = new gwFile($this->fullpath);
-
-        try {
-            $file->delete();
-        } catch (\Exception $e) {
-            if ($e->getMessage() !== gwFilesystemException::ERR_FILE_NOT_EXIST) {
-                // @codeCoverageIgnoreStart
-                throw($e);
-                // @codeCoverageIgnoreEnd
-            }
+        if (!file_exists($this->fullpath)) {
+            return;
         }
+        $file = new gwFile($this->fullpath);
+        $file->delete();
     }
 
     /**
