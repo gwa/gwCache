@@ -18,17 +18,17 @@ composer require gwa/gw-cache
 ### Using the cache
 
 ```php
-use Gwa\Cache\gwCache;
+use Gwa\Cache\Cache;
 
 // Cache directory should be writable.
-// gwCache will try to create it if it does not exist.
+// Cache will try to create it if it does not exist.
 $cachedir = __DIR__ . '/cachestore';
 
 // Set cache validity in minutes
 $cacheminutes = 60 * 12;
 
 // create a cache instance
-$cache = new gwCache('myidentifier', $cachedir, $cacheminutes);
+$cache = new Cache('myidentifier', $cachedir, $cacheminutes);
 
 $iscached = $cache->isCached(); // false
 
@@ -36,7 +36,7 @@ $iscached = $cache->isCached(); // false
 $bytes = $cache->set('foo');
 
 // new object, same directory and identifier
-$cache2 = new gwCache('myidentifier', $cachedir, $cacheminutes);
+$cache2 = new Cache('myidentifier', $cachedir, $cacheminutes);
 $iscached = $cache2->isCached(); // true
 $value = $cache2->get(); // 'foo'
 

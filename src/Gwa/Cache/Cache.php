@@ -4,7 +4,7 @@ namespace Gwa\Cache;
 /**
  * Provides simple caching functions.
  */
-class gwCache
+class Cache
 {
     const CACHEMINUTES_INFINITE = -1;
 
@@ -13,14 +13,14 @@ class gwCache
      *
      * @var string
      */
-    const TYPE_FLAT = 'gwCache::type_flat';
+    const TYPE_FLAT = 'Cache::type_flat';
 
     /**
      * PHP object type.
      *
      * @var string
      */
-    const TYPE_OBJECT = 'gwCache::type_object';
+    const TYPE_OBJECT = 'Cache::type_object';
 
     protected $type;
 
@@ -34,7 +34,7 @@ class gwCache
      * @param int    $cacheminutes cache time in minutes. Set to CACHEMINUTES_INFINITE for infinite caching
      * @param string $type         type of cache
      */
-    public function __construct($identifier, $directory, $cacheminutes = 60, $type = self::TYPE_FLAT, $persistanceclass = 'Gwa\Cache\gwCacheFile')
+    public function __construct($identifier, $directory, $cacheminutes = 60, $type = self::TYPE_FLAT, $persistanceclass = 'Gwa\Cache\CacheFile')
     {
         $this->type = $type;
         $this->setPersistance(new $persistanceclass($identifier, $directory, $cacheminutes));
@@ -43,7 +43,7 @@ class gwCache
     /**
      * gets the persistance instance.
      *
-     * @return  gwiCachePersistance $persisance
+     * @return  CachePersistanceInterface $persisance
      */
     public function getPersistance()
     {
@@ -53,9 +53,9 @@ class gwCache
     /**
      * sets the persistance instance.
      *
-     * @param  gwiCachePersistance $persisance
+     * @param  CachePersistanceInterface $persisance
      */
-    public function setPersistance(gwiCachePersistance $persistance)
+    public function setPersistance(CachePersistanceInterface $persistance)
     {
         $this->persistance = $persistance;
     }

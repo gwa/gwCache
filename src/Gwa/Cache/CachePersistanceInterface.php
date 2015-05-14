@@ -1,7 +1,7 @@
 <?php
 namespace Gwa\Cache;
 
-interface gwiCachePersistance
+interface CachePersistanceInterface
 {
     /**
      * @return boolean
