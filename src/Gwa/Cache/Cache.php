@@ -76,7 +76,7 @@ class Cache
     /**
      * sets the persistence instance.
      *
-     * @param  CachePersistenceInterface $persisance
+     * @param  CachePersistenceInterface $persistence
      * @return  Cache
      */
     public function setPersistance(CachePersistenceInterface $persistence)
