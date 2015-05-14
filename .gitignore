@@ -1,3 +1,5 @@
 vendor/
 tests/temp/*
 !tests/temp/.gitkeep
+composer.lock
+_report
