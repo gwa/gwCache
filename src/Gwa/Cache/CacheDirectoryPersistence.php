@@ -2,8 +2,8 @@
 namespace Gwa\Cache;
 
 use Gwa\Exception\gwFilesystemException;
-use Gwa\Filesystem\gwFile;
 use Gwa\Filesystem\gwDirectory;
+use Gwa\Filesystem\gwFile;
 
 class CacheDirectoryPersistence implements CachePersistenceInterface
 {
