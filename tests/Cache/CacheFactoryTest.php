@@ -1,13 +1,13 @@
 <?php
 use Gwa\Cache\Cache;
 use Gwa\Cache\CacheFactory;
-use Gwa\Cache\CacheDirectoryPersistance;
+use Gwa\Cache\CacheDirectoryPersistence;
 
 class CacheFactoryTest extends PHPUnit_Framework_TestCase
 {
     public function testFactory()
     {
-        $persistance = new CacheDirectoryPersistance(__DIR__.'/../temp');
+        $persistance = new CacheDirectoryPersistence(__DIR__.'/../temp');
         $factory = new CacheFactory($persistance);
         $cache = $factory->create('foo', 'bar', 10, Cache::TYPE_OBJECT);
 

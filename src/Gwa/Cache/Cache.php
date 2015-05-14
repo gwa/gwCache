@@ -45,7 +45,7 @@ class Cache
     /**
      * @var CachePersistenceInterface
      */
-    protected $persistance;
+    protected $persistence;
 
     /**
      * constructor.
@@ -64,23 +64,25 @@ class Cache
     }
 
     /**
-     * gets the persistance instance.
+     * gets the persistence instance.
      *
-     * @return  CachePersistenceInterface $persisance
+     * @return  CachePersistenceInterface
      */
     public function getPersistance()
     {
-        return $this->persistance;
+        return $this->persistence;
     }
 
     /**
-     * sets the persistance instance.
+     * sets the persistence instance.
      *
      * @param  CachePersistenceInterface $persisance
+     * @return  Cache
      */
-    public function setPersistance(CachePersistenceInterface $persistance)
+    public function setPersistance(CachePersistenceInterface $persistence)
     {
-        $this->persistance = $persistance;
+        $this->persistence = $persistence;
+        return $this;
     }
 
     /**
@@ -122,19 +124,20 @@ class Cache
      */
     public function isCached()
     {
-        return $this->persistance->isCached($this);
+        return $this->persistence->isCached($this);
     }
 
     /**
      * clears the cached file.
      *
-     * @return boolean|null
+     * @return Cache
      *
      * @uses gwFile::delete()
      */
     public function clear()
     {
-        $this->persistance->clear($this);
+        $this->persistence->clear($this);
+        return $this;
     }
 
     /**
@@ -142,7 +145,7 @@ class Cache
      *
      * @param mixed $content
      *
-     * @return int bytes written
+     * @return Cache
      *
      * @throws gwFilesystemException
      */
@@ -152,7 +155,8 @@ class Cache
             $content = serialize($content);
         }
 
-        return $this->persistance->set($this, $content);
+        $this->persistence->set($this, $content);
+        return $this;
     }
 
     /**
@@ -163,9 +167,9 @@ class Cache
     public function get()
     {
         if ($this->type === self::TYPE_OBJECT) {
-            return unserialize($this->persistance->get($this));
+            return unserialize($this->persistence->get($this));
         }
 
-        return $this->persistance->get($this);
+        return $this->persistence->get($this);
     }
 }
