@@ -5,7 +5,7 @@ use Gwa\Filesystem\gwFile;
 use Gwa\Filesystem\gwDirectory;
 use Gwa\Exception\gwFilesystemException;
 
-class CacheFile implements CachePersistanceInterface
+class CacheFile implements CachePersistenceInterface
 {
     protected $identifier;
     protected $dirpath;

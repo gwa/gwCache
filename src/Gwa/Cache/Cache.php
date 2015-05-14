@@ -43,7 +43,7 @@ class Cache
     /**
      * gets the persistance instance.
      *
-     * @return  CachePersistanceInterface $persisance
+     * @return  CachePersistenceInterface $persisance
      */
     public function getPersistance()
     {
@@ -53,9 +53,9 @@ class Cache
     /**
      * sets the persistance instance.
      *
-     * @param  CachePersistanceInterface $persisance
+     * @param  CachePersistenceInterface $persisance
      */
-    public function setPersistance(CachePersistanceInterface $persistance)
+    public function setPersistance(CachePersistenceInterface $persistance)
     {
         $this->persistance = $persistance;
     }

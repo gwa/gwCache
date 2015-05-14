@@ -25,7 +25,7 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
     {
         $cachedir = __DIR__.'/../temp';
         $cache = new Cache('foo', $cachedir);
-        $this->assertInstanceOf('Gwa\Cache\CachePersistanceInterface', $cache->getPersistance());
+        $this->assertInstanceOf('Gwa\Cache\CachePersistenceInterface', $cache->getPersistance());
 
         // change persistance
         $cachefile = new CacheFile('bar', $cachedir);

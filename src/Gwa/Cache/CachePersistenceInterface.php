@@ -1,7 +1,7 @@
 <?php
 namespace Gwa\Cache;
 
-interface CachePersistanceInterface
+interface CachePersistenceInterface
 {
     /**
      * @return boolean
