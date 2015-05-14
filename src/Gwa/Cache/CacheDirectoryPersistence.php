@@ -82,7 +82,7 @@ class CacheDirectoryPersistence implements CachePersistenceInterface
      *
      * @param Cache $cache
      *
-     * @return string string or false if not cached
+     * @return false|string string or false if not cached
      */
     public function get(Cache $cache)
     {
