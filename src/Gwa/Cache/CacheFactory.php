@@ -3,7 +3,7 @@ namespace Gwa\Cache;
 
 class CacheFactory
 {
-	/**
+    /**
      * @var $persistance CachePersistenceInterface
      */
     protected $persistence;
@@ -32,16 +32,16 @@ class CacheFactory
      */
     public function create($identifier, $group = '', $cacheminutes = 60, $type = Cache::TYPE_FLAT)
     {
-    	$key = $group ? $identifier.'-'.$group : $identifier;
+        $key = $group ? $identifier.'-'.$group : $identifier;
 
-    	if (array_key_exists($key, $this->caches)) {
-    		return $this->caches[$key];
-    	}
+        if (array_key_exists($key, $this->caches)) {
+            return $this->caches[$key];
+        }
 
-    	$cache = new Cache($identifier, $group, $cacheminutes, $type);
-    	$cache->setPersistance($this->persistence);
-    	$this->caches[$key] = $cache;
+        $cache = new Cache($identifier, $group, $cacheminutes, $type);
+        $cache->setPersistance($this->persistence);
+        $this->caches[$key] = $cache;
 
-    	return $cache;
+        return $cache;
     }
 }
