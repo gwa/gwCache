@@ -1,9 +1,9 @@
 <?php
 use Gwa\Cache\Cache;
-use Gwa\Cache\CacheFile;
+use Gwa\Cache\CacheDirectoryPersistance;
 use Gwa\Filesystem\gwDirectory;
 
-class gwCacheTest extends PHPUnit_Framework_TestCase
+class CacheTest extends PHPUnit_Framework_TestCase
 {
     public static function tearDownAfterClass()
     {
@@ -16,45 +16,45 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
 
     public function testConstructor()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir);
+        $cache = new Cache('foo', 'bar');
         $this->assertInstanceOf('Gwa\Cache\Cache', $cache);
     }
 
     public function testGetPersistance()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir);
-        $this->assertInstanceOf('Gwa\Cache\CachePersistenceInterface', $cache->getPersistance());
+        $cache = new Cache('foo', 'bar');
+        $this->assertNull($cache->getPersistance());
 
         // change persistance
-        $cachefile = new CacheFile('bar', $cachedir);
-        $this->assertNotSame($cachefile, $cache->getPersistance());
-        $cache->setPersistance($cachefile);
-        $this->assertSame($cachefile, $cache->getPersistance());
+        $persistance = new CacheDirectoryPersistance(__DIR__.'/../temp');
+        $cache->setPersistance($persistance);
+        $this->assertSame($persistance, $cache->getPersistance());
     }
 
     public function testIsCachedFalse()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir);
+        $cache = new Cache('foo');
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $this->assertFalse($cache->isCached());
         $this->assertFalse($cache->get());
     }
 
     public function testSet()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir);
+        $cache = new Cache('foo');
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $bytes = $cache->set('foo');
         $this->assertEquals(3, $bytes);
         $this->assertTrue($cache->isCached());
     }
 
-    public function testSetInNonExistingSubfolder()
+    public function testSetInNonExistingGroup()
     {
-        $cachedir = __DIR__.'/../temp/subfolder';
-        $cache = new Cache('foo', $cachedir);
+        $cache = new Cache('foo', 'group');
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $bytes = $cache->set('foo');
         $this->assertEquals(3, $bytes);
         $this->assertTrue($cache->isCached());
@@ -62,45 +62,51 @@ class gwCacheTest extends PHPUnit_Framework_TestCase
 
     public function testCacheInfinite()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir, -1);
+        $cache = new Cache('foo', '', -1);
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
         $this->assertTrue($cache->isCached());
     }
 
     public function testGet()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir);
+        $cache = new Cache('foo');
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $this->assertEquals('foo', $cache->get());
         $this->assertEquals('foo', $cache->get()); // test cached in persistance instance
     }
 
     public function testClear()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('foo', $cachedir);
+        $cache = new Cache('foo');
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $data = $cache->clear();
         $this->assertFalse($cache->isCached());
     }
 
     public function testFileNotExist()
     {
+        $cache = new Cache('foo');
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../notexist'));
+
         // not exist exception should be caught internally
-        $cachedir = __DIR__.'/notexist';
-        $cache = new Cache('foo', $cachedir);
         $data = $cache->clear();
         $this->assertFalse($cache->isCached());
     }
 
     public function testCacheObject()
     {
-        $cachedir = __DIR__.'/../temp';
-        $cache = new Cache('obj', $cachedir, 30, Cache::TYPE_OBJECT);
+        $cache = new Cache('obj', '', 30, Cache::TYPE_OBJECT);
+        $cache->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $obj = new \stdClass;
         $obj->foo = 'bar';
         $cache->set($obj);
 
-        $cache2 = new Cache('obj', $cachedir, 30, Cache::TYPE_OBJECT);
+        $cache2 = new Cache('obj', '', 30, Cache::TYPE_OBJECT);
+        $cache2->setPersistance(new CacheDirectoryPersistance(__DIR__.'/../temp'));
+
         $this->assertTrue($cache2->isCached());
         $obj2 = $cache2->get();
         $this->assertEquals('bar', $obj2->foo);

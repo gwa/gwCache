@@ -22,22 +22,45 @@ class Cache
      */
     const TYPE_OBJECT = 'Cache::type_object';
 
+    /**
+     * @var string
+     */
+    protected $identifier;
+
+    /**
+     * @var string
+     */
     protected $type;
 
+    /**
+     * @var string
+     */
+    protected $group;
+
+    /**
+     * @var int
+     */
+    protected $cacheminutes;
+
+    /**
+     * @var CachePersistenceInterface
+     */
     protected $persistance;
 
     /**
      * constructor.
      *
-     * @param string $identifier   unique identifier for this file
-     * @param string $directory    absolute path to writable cache directory
+     * @param string $identifier   unique (to the group) identifier for this file
+     * @param string $group        group
      * @param int    $cacheminutes cache time in minutes. Set to CACHEMINUTES_INFINITE for infinite caching
      * @param string $type         type of cache
      */
-    public function __construct($identifier, $directory, $cacheminutes = 60, $type = self::TYPE_FLAT, $persistanceclass = 'Gwa\Cache\CacheFile')
+    public function __construct($identifier, $group = '', $cacheminutes = 60, $type = self::TYPE_FLAT)
     {
+        $this->identifier = $identifier;
+        $this->group = $group;
+        $this->cacheminutes = $cacheminutes;
         $this->type = $type;
-        $this->setPersistance(new $persistanceclass($identifier, $directory, $cacheminutes));
     }
 
     /**
@@ -61,13 +84,45 @@ class Cache
     }
 
     /**
+     * @return string
+     */
+    public function getIdentifier()
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCacheMinutes()
+    {
+        return $this->cacheminutes;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * checks if the file is cached.
      *
      * @return boolean
      */
     public function isCached()
     {
-        return $this->persistance->isCached();
+        return $this->persistance->isCached($this);
     }
 
     /**
@@ -79,7 +134,7 @@ class Cache
      */
     public function clear()
     {
-        $this->persistance->clear();
+        $this->persistance->clear($this);
     }
 
     /**
@@ -97,7 +152,7 @@ class Cache
             $content = serialize($content);
         }
 
-        return $this->persistance->set($content);
+        return $this->persistance->set($this, $content);
     }
 
     /**
@@ -108,9 +163,9 @@ class Cache
     public function get()
     {
         if ($this->type === self::TYPE_OBJECT) {
-            return unserialize($this->persistance->get());
+            return unserialize($this->persistance->get($this));
         }
 
-        return $this->persistance->get();
+        return $this->persistance->get($this);
     }
 }

@@ -6,17 +6,17 @@ interface CachePersistenceInterface
     /**
      * @return boolean
      */
-    public function isCached();
+    public function isCached(Cache $cache);
     /**
      * @return false|string
      */
-    public function get();
+    public function get(Cache $cache);
     /**
      * @return integer
      */
-    public function set($content);
+    public function set(Cache $cache, $content);
     /**
      * @return boolean|null
      */
-    public function clear();
+    public function clear(Cache $cache);
 }
